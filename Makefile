@@ -3,7 +3,7 @@ VERSION = 0.9.14
 
 .PHONY: all build_all \
 	build_customizable build_ruby19 build_ruby20 build_ruby21 \
-	build_nodejs build_full \
+	build_php5js build_nodejs build_full \
 	tag_latest release clean
 
 all: build_all
@@ -45,6 +45,15 @@ build_nodejs:
 	echo final=1 >> nodejs_image/buildconfig
 	docker build -t $(NAME)-nodejs:$(VERSION) --rm nodejs_image
 
+build_php5js:
+	rm -rf php5_image
+	cp -pR image php5_image
+	echo nodejs=1 >> php5_image/buildconfig
+	echo php5=1 >> php5_image/buildconfig
+	echo final=1 >> php5_image/buildconfig
+	docker build -t $(NAME)-php5js:$(VERSION) --rm php5_image
+
+
 build_full:
 	rm -rf full_image
 	cp -pR image full_image
@@ -60,6 +69,7 @@ build_full:
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
+	docker tag $(NAME)-php5js:$(VERSION) $(NAME)-php5js:latest
 	docker tag $(NAME)-ruby19:$(VERSION) $(NAME)-ruby19:latest
 	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
 	docker tag $(NAME)-ruby21:$(VERSION) $(NAME)-ruby21:latest
