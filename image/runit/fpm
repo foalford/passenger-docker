@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 umask 000
-exec /usr/sbin/php5-fpm --fpm-config /etc/php5/fpm/php-fpm.conf
+exec /usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf
